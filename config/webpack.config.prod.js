@@ -15,14 +15,7 @@ const getClientEnvironment = require('./env');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
-// 历史代码
-// const publicPath = paths.servedPath;
-// 相对路径
-const publicPath = './';
-// 域名没问题
-// const publicPath = 'http://localhost:3002/';
-// 根路径/static/也没有问题
-// const publicPath = '/';
+const publicPath = paths.servedPath;
 // Some apps do not use client-side routing with pushState.
 // For these, "homepage" can be set to "." to enable relative asset paths.
 const shouldUseRelativeAssetPaths = publicPath === './';
@@ -72,7 +65,7 @@ module.exports = {
     // We don't currently advertise code splitting but Webpack supports it.
     filename: 'static/js/[name].[chunkhash:8].js',
     chunkFilename: 'static/js/[name].[chunkhash:8].chunk.js',
-    // We inferred the "helper path" (such as / or /my-project) from homepage.
+    // We inferred the "public path" (such as / or /my-project) from homepage.
     publicPath: publicPath,
     // Point sourcemap entries to original disk location (format as URL on Windows)
     devtoolModuleFilenameTemplate: info =>
@@ -147,7 +140,7 @@ module.exports = {
             loader: require.resolve('url-loader'),
             options: {
               limit: 10000,
-              name: 'static/images/[name].[hash:8].[ext]',
+              name: 'static/media/[name].[hash:8].[ext]',
             },
           },
           // Process JS with Babel.
@@ -214,50 +207,6 @@ module.exports = {
             ),
             // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
           },
-          {
-              test: /\.styl(us)?$/,
-              loader: ExtractTextPlugin.extract(
-                  Object.assign(
-                      {
-                          fallback: require.resolve('style-loader'),
-                          use: [
-                              {
-                                  loader: require.resolve('css-loader'),
-                                  options: {
-                                      importLoaders: 1,
-                                      minimize: true,
-                                      sourceMap: shouldUseSourceMap,
-                                  },
-                              },
-                              {
-                                  loader: require.resolve('postcss-loader'),
-                                  options: {
-                                      // Necessary for external CSS imports to work
-                                      // https://github.com/facebookincubator/create-react-app/issues/2677
-                                      ident: 'postcss',
-                                      sourceMap: true,
-                                      plugins: () => [
-                                          require('postcss-flexbugs-fixes'),
-                                          autoprefixer({
-                                              browsers: [
-                                                  '>1%',
-                                                  'last 4 versions',
-                                                  'Firefox ESR',
-                                                  'not ie < 9', // React doesn't support IE8 anyway
-                                              ],
-                                              flexbox: 'no-2009',
-                                          }),
-                                      ],
-                                  },
-                              },
-                              'stylus-loader'
-                          ],
-                      },
-                      extractTextPluginOptions
-                  )
-              ),
-              // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
-          },
           // "file" loader makes sure assets end up in the `build` folder.
           // When you `import` an asset, you get its filename.
           // This loader doesn't use a "test" so it will catch all modules
@@ -270,7 +219,7 @@ module.exports = {
             // by webpacks internal loaders.
             exclude: [/\.js$/, /\.html$/, /\.json$/],
             options: {
-              name: 'static/images/[name].[hash:8].[ext]',
+              name: 'static/media/[name].[hash:8].[ext]',
             },
           },
           // ** STOP ** Are you adding a new loader?
@@ -281,7 +230,7 @@ module.exports = {
   },
   plugins: [
     // Makes some environment variables available in index.html.
-    // The helper URL is available as %PUBLIC_URL% in index.html, e.g.:
+    // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     // In production, it will be an empty string unless you specify "homepage"
     // in `package.json`, in which case it will be the pathname of that URL.
@@ -292,7 +241,6 @@ module.exports = {
       template: paths.appHtml,
       minify: {
         removeComments: true,
-          // 上架之前解开下面的代码
         // collapseWhitespace: true,
         removeRedundantAttributes: true,
         useShortDoctype: true,
@@ -351,7 +299,7 @@ module.exports = {
           // This message occurs for every build and is a bit too noisy.
           return;
         }
-        if (message.indexOf('Skipping public resource') === 0) {
+        if (message.indexOf('Skipping static resource') === 0) {
           // This message obscures real errors so we ignore it.
           // https://github.com/facebookincubator/create-react-app/issues/2612
           return;

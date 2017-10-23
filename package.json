@@ -1,5 +1,5 @@
 {
-  "name": "demo1_basic",
+  "name": "demo2",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -33,11 +33,6 @@
     "react": "^16.0.0",
     "react-dev-utils": "^4.1.0",
     "react-dom": "^16.0.0",
-    "react-redux": "^5.0.6",
-    "react-router": "^4.2.0",
-    "react-router-redux": "^4.0.8",
-    "redux": "^3.7.2",
-    "redux-thunk": "^2.2.0",
     "style-loader": "0.18.2",
     "sw-precache-webpack-plugin": "0.11.4",
     "url-loader": "0.5.9",
@@ -49,8 +44,8 @@
   "scripts": {
     "start": "node config/scripts/start.js",
     "build": "node config/scripts/build.js",
-    "server": "node ./express/bin/www",
-    "test": "node config/scripts/test.js --env=jsdom"
+    "test": "node config/scripts/test.js --env=jsdom",
+    "server": "node ./express/bin/www"
   },
   "jest": {
     "collectCoverageFrom": [
@@ -102,5 +97,6 @@
     "serve-favicon": "^2.3.2",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1"
-  }
+  },
+  "homepage": "./"
 }

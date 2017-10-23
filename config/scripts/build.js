@@ -47,7 +47,7 @@ measureFileSizesBeforeBuild(paths.appBuild)
     // Remove all content but keep the directory so that
     // if you're in it, you don't end up in Trash
     fs.emptyDirSync(paths.appBuild);
-    // Merge with the helper folder
+    // Merge with the public folder
     copyPublicFolder();
     // Start the webpack build
     return build(previousFileSizes);
@@ -92,7 +92,6 @@ measureFileSizesBeforeBuild(paths.appBuild)
         buildFolder,
         useYarn
       );
-      // 最后拷贝public下面的内容
     },
     err => {
       console.log(chalk.red('Failed to compile.\n'));
@@ -144,8 +143,7 @@ function build(previousFileSizes) {
 }
 
 function copyPublicFolder() {
-    console.log('拷贝 public文件啦', paths.appBuild + '/static/');
-  fs.copySync(paths.appPublic, paths.appBuild + '/static', {
+  fs.copySync(paths.appPublic, paths.appBuild, {
     dereference: true,
     filter: file => file !== paths.appHtml,
   });

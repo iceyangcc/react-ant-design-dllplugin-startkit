@@ -1,7 +1,3 @@
-npm start 进入开发模式
-npm run build 打包编译
-npm run server 打包之后再执行此命令,用于运行 dist目录中的静态资源
-
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
