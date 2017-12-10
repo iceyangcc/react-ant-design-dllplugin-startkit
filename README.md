@@ -40,8 +40,7 @@ npm run build 或者 yarn build
 ```
 npm run preview
 ```
-###### 此条命令将启动express服务器访问build中的静态资源
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+###### 此条命令将启动express服务器访问build中的静态资源, 自动打卡端口为3002的页面
 
 ## 联系我
 iceyangcc@163.com
