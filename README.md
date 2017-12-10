@@ -1,8 +1,9 @@
 这个 react项目模板改编自 [Create React App](https://github.com/facebookincubator/create-react-app).
 集成ant-design(按需加载), 可以让你不关心 webpack 配置, 快速开始.
 支持3种css预处理器 scss, less, stylus, 免配置.
-我将持续优化项目结构和功能, 尽请期待 ~
-如果你觉得还不错, 不妨start一下, 你的肯定是我持续更新的动力🙂
+
+> 我将持续优化项目结构和功能, 尽请期待 ~
+> 如果你觉得还不错, 不妨start一下, 你的肯定是我持续更新的动力🙂
 
 
 ## react项目模板功能和特色
