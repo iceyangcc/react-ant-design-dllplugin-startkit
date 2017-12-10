@@ -10,6 +10,7 @@
 
 - `react16` `react-router4` redux react-redux
 - `antd@3.0.0` 参见[ant-design](https://ant.design/docs/react/introduce-cn)
+- happypack, dllplugin打包优化
 - axios 网络支持
 - redux-saga redux-thunk
 - 模块热加载, 热替换
