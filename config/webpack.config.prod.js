@@ -41,10 +41,11 @@ const cssFilename = 'static/css/[name].[contenthash:8].css';
 // (See https://github.com/webpack-contrib/extract-text-webpack-plugin/issues/27)
 // However, our output is structured with css, js and media folders.
 // To have this structure working with relative paths, we have to use custom options.
-const extractTextPluginOptions = shouldUseRelativeAssetPaths
-  ? // Making sure that the publicPath goes back to to build folder.
-    { publicPath: Array(cssFilename.split('/').length).join('../') }
-  : {};
+const extractTextPluginOptions = shouldUseRelativeAssetPaths ? // Making sure that the publicPath goes back to to build folder.
+  {
+    publicPath: Array(cssFilename.split('/').length).join('../')
+  } :
+  {};
 
 // This is the production configuration.
 // It compiles slowly and is focused on producing a fast and minimal bundle.
@@ -52,6 +53,7 @@ const extractTextPluginOptions = shouldUseRelativeAssetPaths
 module.exports = {
   // Don't attempt to continue if there are any errors.
   bail: true,
+  // vendor: ["react", "react-dom"],
   // We generate sourcemaps in production. This is slow but gives good results.
   // You can exclude the *.map files from the build during deployment.
   devtool: shouldUseSourceMap ? 'source-map' : false,
@@ -70,8 +72,8 @@ module.exports = {
     // Point sourcemap entries to original disk location (format as URL on Windows)
     devtoolModuleFilenameTemplate: info =>
       path
-        .relative(paths.appSrc, info.absoluteResourcePath)
-        .replace(/\\/g, '/'),
+      .relative(paths.appSrc, info.absoluteResourcePath)
+      .replace(/\\/g, '/'),
   },
   resolve: {
     // This allows you to set a fallback for where Webpack should look for modules.
@@ -88,9 +90,9 @@ module.exports = {
     // https://github.com/facebookincubator/create-react-app/issues/290
     // `web` extension prefixes have been added for better support
     // for React Native Web.
-    extensions: ['.web.js', '.js', '.json', '.web.jsx', '.jsx'],
+    extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
     alias: {
-      
+
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
@@ -114,18 +116,16 @@ module.exports = {
       // First, run the linter.
       // It's important to do this before Babel processes the JS.
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(js|jsx|mjs)$/,
         enforce: 'pre',
-        use: [
-          {
-            options: {
-              formatter: eslintFormatter,
-              eslintPath: require.resolve('eslint'),
-              
-            },
-            loader: require.resolve('eslint-loader'),
+        use: [{
+          options: {
+            formatter: eslintFormatter,
+            eslintPath: require.resolve('eslint'),
+
           },
-        ],
+          loader: require.resolve('eslint-loader'),
+        }, ],
         include: paths.appSrc,
       },
       {
@@ -145,12 +145,19 @@ module.exports = {
           },
           // Process JS with Babel.
           {
-            test: /\.(js|jsx)$/,
+            test: /\.(js|jsx|mjs)$/,
             include: paths.appSrc,
             loader: require.resolve('babel-loader'),
             options: {
-              
               compact: true,
+              plugins: [
+                [
+                  "import",
+                  {
+                    "libraryName": "antd"
+                  }
+                ]
+              ]
             },
           },
           // The notation here is somewhat confusing.
@@ -166,13 +173,16 @@ module.exports = {
           // use the "style" loader inside the async code so CSS from them won't be
           // in the main CSS file.
           {
-            test: /\.css$/,
+            test: /\.(css|styl|stylus)$/,
             loader: ExtractTextPlugin.extract(
-              Object.assign(
-                {
-                  fallback: require.resolve('style-loader'),
-                  use: [
-                    {
+              Object.assign({
+                  fallback: {
+                    loader: require.resolve('style-loader'),
+                    options: {
+                      hmr: false,
+                    },
+                  },
+                  use: [{
                       loader: require.resolve('css-loader'),
                       options: {
                         importLoaders: 1,
@@ -186,6 +196,7 @@ module.exports = {
                         // Necessary for external CSS imports to work
                         // https://github.com/facebookincubator/create-react-app/issues/2677
                         ident: 'postcss',
+                        sourceMap : true,
                         plugins: () => [
                           require('postcss-flexbugs-fixes'),
                           autoprefixer({
@@ -200,6 +211,107 @@ module.exports = {
                         ],
                       },
                     },
+                    {
+                      loader: require.resolve('stylus-loader')
+                    }
+                  ],
+                },
+                extractTextPluginOptions
+              )
+            ),
+            // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+          },
+          {
+            test: /\.(sass|scss)$/,
+            loader: ExtractTextPlugin.extract(
+              Object.assign({
+                  fallback: {
+                    loader: require.resolve('style-loader'),
+                    options: {
+                      hmr: false,
+                    },
+                  },
+                  use: [{
+                      loader: require.resolve('css-loader'),
+                      options: {
+                        importLoaders: 1,
+                        minimize: true,
+                        sourceMap: shouldUseSourceMap,
+                      },
+                    },
+                    {
+                      loader: require.resolve('postcss-loader'),
+                      options: {
+                        // Necessary for external CSS imports to work
+                        // https://github.com/facebookincubator/create-react-app/issues/2677
+                        ident: 'postcss',
+                        sourceMap : true,
+                        plugins: () => [
+                          require('postcss-flexbugs-fixes'),
+                          autoprefixer({
+                            browsers: [
+                              '>1%',
+                              'last 4 versions',
+                              'Firefox ESR',
+                              'not ie < 9', // React doesn't support IE8 anyway
+                            ],
+                            flexbox: 'no-2009',
+                          }),
+                        ],
+                      },
+                    },
+                    {
+                      loader: require.resolve('sass-loader')
+                    }
+                  ],
+                },
+                extractTextPluginOptions
+              )
+            ),
+            // Note: this won't work without `new ExtractTextPlugin()` in `plugins`.
+          },
+          {
+            test: /\.less$/,
+            loader: ExtractTextPlugin.extract(
+              Object.assign({
+                  fallback: {
+                    loader: require.resolve('style-loader'),
+                    options: {
+                      hmr: false,
+                    },
+                  },
+                  use: [{
+                      loader: require.resolve('css-loader'),
+                      options: {
+                        importLoaders: 1,
+                        minimize: true,
+                        sourceMap: shouldUseSourceMap,
+                      },
+                    },
+                    {
+                      loader: require.resolve('postcss-loader'),
+                      options: {
+                        // Necessary for external CSS imports to work
+                        // https://github.com/facebookincubator/create-react-app/issues/2677
+                        ident: 'postcss',
+                        sourceMap : true,
+                        plugins: () => [
+                          require('postcss-flexbugs-fixes'),
+                          autoprefixer({
+                            browsers: [
+                              '>1%',
+                              'last 4 versions',
+                              'Firefox ESR',
+                              'not ie < 9', // React doesn't support IE8 anyway
+                            ],
+                            flexbox: 'no-2009',
+                          }),
+                        ],
+                      },
+                    },
+                    {
+                      loader: require.resolve('less-loader')
+                    }
                   ],
                 },
                 extractTextPluginOptions
@@ -241,7 +353,7 @@ module.exports = {
       template: paths.appHtml,
       minify: {
         removeComments: true,
-        // collapseWhitespace: true,
+        collapseWhitespace: true,
         removeRedundantAttributes: true,
         useShortDoctype: true,
         removeEmptyAttributes: true,
@@ -266,6 +378,9 @@ module.exports = {
         // Pending further investigation:
         // https://github.com/mishoo/UglifyJS2/issues/2011
         comparisons: false,
+      },
+      mangle: {
+        safari10: true,
       },
       output: {
         comments: false,
@@ -321,6 +436,47 @@ module.exports = {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'other',
+      minChunks: function (module, count) {
+        return (module.resource && /\.js$/.test(module.resource))
+      }
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      chunks: ['other'],
+      minChunks: function (module, count) {
+        return (module.resource &&
+          /\.js$/.test(module.resource) &&
+          module.resource.indexOf('antd') > -1 ||
+          module.resource.indexOf('react') > -1 ||
+          module.resource.indexOf('rc-') > -1 ||
+          module.resource.indexOf('core') > -1
+        )
+      }
+    }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'antd',
+      chunks: ['vendor'],
+      minChunks: function (module, count) {
+        return (module.resource &&
+          /\.js$/.test(module.resource) &&
+          module.resource.indexOf('antd') > -1 ||
+          module.resource.indexOf('react') > -1
+        )
+      }
+    }),
+    // 提取这个模块和上一个模块的公共js
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'react',
+      chunks: ['antd'],
+      minChunks: function (module, count) {
+        return (module.resource &&
+          /\.js$/.test(module.resource) &&
+          module.resource.indexOf('react') > -1
+        )
+      }
+    })
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
