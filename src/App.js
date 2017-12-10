@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-// import logo from './logo.svg';
 import './App.css';
-import './test1.scss'
-import './test2.less'
-import './test3.styl'
+import './app.scss'
+import './app.less'
+import './app.styl'
 // import Button from 'antd/lib/button/';
 import 'antd/lib/button/style/css'
 // import DatePicker from 'antd/lib/date-picker/';
@@ -14,8 +13,6 @@ import 'antd/lib/pagination/style/css'
 import { Button, DatePicker, Pagination } from 'antd'
 import { Object } from 'core-js/library/web/timers';
 // import moment from 'moment';
-import './index.less';
-import More from './more'
 const { MonthPicker } = DatePicker;
 
 
@@ -94,7 +91,6 @@ class App extends Component {
             })
           }}
         >切换到第3页</Button>
-        <More />
       </div>
     );
   }
