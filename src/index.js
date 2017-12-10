@@ -1,5 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Switch, Route, HashRouter as Router } from 'react-router-dom'
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import axios from 'axios'
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 // import zhCN from 'antd/lib/locale-provider/zh_CN'

@@ -57,6 +57,8 @@
   },
   "scripts": {
     "start": "node config/scripts/start.js",
+    "vendor": "webpack --config config/dll.js",
+    "bd": "node config/scripts/build.js",
     "build": "webpack --config config/dll.js && node config/scripts/build.js",
     "prod": "node ./express/bin/www",
     "test": "node config/scripts/test.js --env=jsdom"
