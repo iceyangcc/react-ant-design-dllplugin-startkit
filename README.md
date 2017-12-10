@@ -39,7 +39,7 @@ npm run build 或者 yarn build
 
 ### `5.预览build之后的代码`
 ```
-npm run preview
+npm run prod
 ```
 ###### 此条命令将启动express服务器访问build中的静态资源, 自动打卡端口为3002的页面
 
