@@ -57,7 +57,7 @@
   },
   "scripts": {
     "start": "node config/scripts/start.js",
-    "build": "node config/scripts/build.js",
+    "build": "webpack --config config/dll.js && node config/scripts/build.js",
     "prod": "node ./express/bin/www",
     "test": "node config/scripts/test.js --env=jsdom"
   },
@@ -104,19 +104,20 @@
     "extends": "react-app"
   },
   "devDependencies": {
-    "happypack": "^4.0.0",
-    "less": "^2.7.3",
-    "less-loader": "^4.0.5",
-    "node-sass": "^4.7.2",
-    "sass": "^1.0.0-beta.4",
-    "sass-loader": "^6.0.6",
-    "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.1",
+    "add-asset-html-webpack-plugin": "^2.1.2",
     "body-parser": "^1.16.0",
     "cookie-parser": "^1.4.3",
     "ejs": "^2.5.5",
     "express": "^4.14.1",
+    "happypack": "^4.0.0",
+    "less": "^2.7.3",
+    "less-loader": "^4.0.5",
     "morgan": "^1.7.0",
-    "serve-favicon": "^2.3.2"
+    "node-sass": "^4.7.2",
+    "sass": "^1.0.0-beta.4",
+    "sass-loader": "^6.0.6",
+    "serve-favicon": "^2.3.2",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.1"
   }
 }

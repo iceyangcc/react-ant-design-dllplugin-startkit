@@ -12,6 +12,8 @@ const eslintFormatter = require('react-dev-utils/eslintFormatter');
 const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
 const paths = require('./paths');
 const getClientEnvironment = require('./env');
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
+const HappyPack = require('happypack');
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -147,18 +149,7 @@ module.exports = {
           {
             test: /\.(js|jsx|mjs)$/,
             include: paths.appSrc,
-            loader: require.resolve('babel-loader'),
-            options: {
-              compact: true,
-              plugins: [
-                [
-                  "import",
-                  {
-                    "libraryName": "antd"
-                  }
-                ]
-              ]
-            },
+            use: 'happypack/loader?id=jsx'
           },
           // The notation here is somewhat confusing.
           // "postcss" loader applies autoprefixer to our CSS.
@@ -341,6 +332,24 @@ module.exports = {
     ],
   },
   plugins: [
+    new HappyPack({
+      id: 'jsx',
+      threads: 4,
+      loaders: [ {
+        loader: require.resolve('babel-loader'),
+        options: {
+          compact: true,
+          plugins: [
+            [
+              "import",
+              {
+                "libraryName": "antd"
+              }
+            ]
+          ]
+        },
+      } ]
+    }),
     // Makes some environment variables available in index.html.
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
@@ -436,47 +445,19 @@ module.exports = {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'other',
-      minChunks: function (module, count) {
-        return (module.resource && /\.js$/.test(module.resource))
-      }
+    // 加入插件，让webpack使用dll
+    new webpack.DllReferencePlugin({
+      context: path.resolve(__dirname, '.'),
+      manifest: require('./vendor-manifest.json')
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      chunks: ['other'],
-      minChunks: function (module, count) {
-        return (module.resource &&
-          /\.js$/.test(module.resource) &&
-          module.resource.indexOf('antd') > -1 ||
-          module.resource.indexOf('react') > -1 ||
-          module.resource.indexOf('rc-') > -1 ||
-          module.resource.indexOf('core') > -1
-        )
-      }
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'antd',
-      chunks: ['vendor'],
-      minChunks: function (module, count) {
-        return (module.resource &&
-          /\.js$/.test(module.resource) &&
-          module.resource.indexOf('antd') > -1 ||
-          module.resource.indexOf('react') > -1
-        )
-      }
-    }),
-    // 提取这个模块和上一个模块的公共js
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'react',
-      chunks: ['antd'],
-      minChunks: function (module, count) {
-        return (module.resource &&
-          /\.js$/.test(module.resource) &&
-          module.resource.indexOf('react') > -1
-        )
-      }
-    })
+	  // 复制公共dll.js，并插入html
+    new AddAssetHtmlPlugin([{
+      filepath: path.resolve(__dirname,'dllbundle/vendor.dll.js'), // 同webpack.dll.conf.js output
+      includeSourcemap: false,
+      outputPath: '../build/static/js',
+      publicPath: '/static/js',
+      hash: true,
+    }])
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
