@@ -32,6 +32,7 @@
     "html-webpack-plugin": "2.29.0",
     "immutable": "^3.8.2",
     "jest": "20.0.4",
+    "lodash": "^4.17.4",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",
@@ -58,7 +59,7 @@
   "scripts": {
     "start": "node config/scripts/start.js",
     "vendor": "webpack --config config/dll.js",
-    "bd": "node config/scripts/build.js",
+    "prebuild": "node config/scripts/build.js",
     "build": "webpack --config config/dll.js && node config/scripts/build.js",
     "prod": "node ./express/bin/www",
     "test": "node config/scripts/test.js --env=jsdom"
