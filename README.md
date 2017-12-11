@@ -3,7 +3,7 @@
 支持3种css预处理器 scss, less, stylus, 免配置.
 
 > 我将持续优化项目结构和功能, 尽请期待 ~
-> 如果你觉得还不错, 不妨start一下, 你的肯定是我持续更新的动> 力🙂
+> 如果你觉得还不错, 不妨start一下, 你的肯定是我持续更新的动力🙂
 
 
 ## react项目模板功能和特色
@@ -16,13 +16,14 @@
 - 模块热加载, 热替换
 - express服务器`预览`build之后的代码
 
+**注意: 此模板需要 webpack@3.x支持**
 
 ## 安装和使用 (命令行)
 
 ### `1.克隆项目`
 ```
-git clone https://github.com/iceyangcc/ReactQuickStartKit.git
-cd ReactQuickStartKit
+git clone https://github.com/iceyangcc/react-ant-design-dllplugin-startkit.git
+cd react-ant-design-dllplugin-startkit
 ```
 ### `2.安装npm包`
 ```
@@ -43,6 +44,10 @@ npm run build 或者 yarn build
 npm run prod
 ```
 ###### 此条命令将启动express服务器访问build中的静态资源, 自动打卡端口为3002的页面
+### `6.自定义配置`
+```
+修改 config 下的webpack配置文件
+```
 
 ## 联系我
 iceyangcc@163.com
