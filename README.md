@@ -1,6 +1,8 @@
 ##
 这个项目是 一个react16 SPA单页项目的模板, 可以让你快速上手写 react全家桶相关项目而不太关心配置, 打包也进行了优化; 还在不断优化中; 支持 打包后 生成 Java项目需要的 
 ${ctx}字符串变量, 也支持本地express服务器查看 打包后的文件
+甚至给你写了一点示例代码,效果如下:
+![HTTPS站点](/doc/startkit.png)
 
 #### 技术栈
 > ES5/6/7 + react16 + react-router4 + redux + axios + less/sass/stylus + antd@3 + decorator + express本地服务器
