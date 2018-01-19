@@ -17,7 +17,7 @@ webpack@3.x + hackpack + dllplugin + CommonsChunkPlugin + GLoabal变量
 😝 src: tree
 ![HTTPS站点](/doc/src-dir.png)
 
-#### usage使用指南
+## usage使用指南
 推荐首先安装 yarn (sudo npm i -g yarn), 安装软件更快速
 
 #### 下载项目安装依赖
@@ -49,8 +49,10 @@ build: tree
 
 > 推荐使用 yarn 代替 npm 相关命令
 
+***
 PS: public/index.html中的js脚本, 声明 Ajax请求的 路径前缀, 你可以根据需要配置这个代码, 原因是: 本地的 Java项目在调试时需要加项目路径,例如: localhost:8080/projectName/restapi/list
 而上线时使用的是
 xxx.com/restapi/list,
 所以 npm run dev 打包是针对第一种的, 
 npm run prod 是针对上线代码的.
+***
