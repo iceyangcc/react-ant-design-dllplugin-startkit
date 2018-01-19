@@ -13,104 +13,7 @@ webpack@3.x + hackpack + dllplugin + CommonsChunkPlugin + GLoabal变量
 
 #### 项目源码结构
 😝 src: tree
-.
-├── assets
-│   └── styles
-│       └── less
-│           ├── base
-│           │   ├── _common.less
-│           │   ├── _reset.less
-│           │   ├── _reset_antd.less
-│           │   └── index.less
-│           ├── helpers
-│           │   ├── _functions.less
-│           │   ├── _helpers.less
-│           │   ├── _mixins.less
-│           │   ├── _variables.less
-│           │   └── index.less
-│           ├── index.less
-│           └── themes
-│               ├── _admin.less
-│               └── index.less
-├── components
-│   ├── Hoc
-│   │   ├── pure-render-deep.jsx
-│   │   ├── pure-render-shallow.jsx
-│   │   └── state-getter.jsx
-│   ├── basic
-│   │   ├── 404
-│   │   │   ├── images
-│   │   │   │   ├── 404-line.png
-│   │   │   │   └── 404-text.png
-│   │   │   ├── index.jsx
-│   │   │   └── style
-│   │   │       └── index.less
-│   │   ├── layer
-│   │   │   ├── layer.js
-│   │   │   └── skin
-│   │   │       ├── default
-│   │   │       │   ├── icon-ext.png
-│   │   │       │   ├── icon.png
-│   │   │       │   ├── icon_back.png
-│   │   │       │   ├── loading-0.gif
-│   │   │       │   ├── loading-1.gif
-│   │   │       │   └── loading-2.gif
-│   │   │       └── layer.css
-│   │   ├── public-header
-│   │   │   ├── images
-│   │   │   │   └── react.svg
-│   │   │   ├── index.jsx
-│   │   │   └── style
-│   │   │       └── index.less
-│   │   └── side-nav
-│   │       ├── index.jsx
-│   │       └── style
-│   │           └── side-nav.less
-│   ├── containers
-│   │   ├── app
-│   │   │   ├── index.jsx
-│   │   │   └── style
-│   │   │       └── app.less
-│   │   ├── dashboard
-│   │   │   ├── images
-│   │   │   │   └── name.png
-│   │   │   ├── index.jsx
-│   │   │   ├── style
-│   │   │   │   └── index.less
-│   │   │   └── sub
-│   │   │       ├── course-item.jsx
-│   │   │       └── style
-│   │   │           └── index.less
-│   │   └── test
-│   │       └── index.jsx
-│   └── layout
-│       └── header
-│           ├── header.jsx
-│           └── style
-│               └── header.less
-├── helper
-│   ├── constants.js
-│   └── settings.js
-├── index.js
-├── redux
-│   ├── actions
-│   │   ├── action-types.js
-│   │   └── index.js
-│   └── reducers
-│       ├── change-menu.js
-│       └── index.js
-├── router
-│   ├── history.js
-│   └── index.js
-├── services
-│   ├── api
-│   │   ├── base-url.js
-│   │   ├── base.js
-│   │   └── index.js
-│   ├── common-request-headers.js
-│   └── index.js
-└── utils
-    └── index.js
+![HTTPS站点](/doc/src-dir.png)
 
 #### usage使用指南
 推荐首先安装 yarn (sudo npm i -g yarn), 安装软件更快速
@@ -136,22 +39,7 @@ https://github.com/iceyangcc/react-ant-design-dllplugin-startkit
 
 #### 编译后的 build目录
 build: tree
-.
-├── index.html
-└── static
-    ├── css
-    │   └── main.af39c432.css
-    ├── images
-    │   ├── favicon.ico
-    │   └── name.febdc7eb.png
-    ├── js
-    │   ├── asset-manifest.json
-    │   ├── common.884a747b.js
-    │   ├── main.3a5a7fc0.js
-    │   ├── service-worker.js
-    │   └── vendor.dll.js
-    └── media
-        └── react.8e26f220.svg
+![HTTPS站点](/doc/build-dir.png)
 
 
 ##### 在本地服务器中预览,打包后的效果, 即查看 build 中的静态文件, 自动打开浏览器, 端口为 3002
