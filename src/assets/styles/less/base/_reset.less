@@ -1,0 +1,370 @@
+@charset "UTF-8";
+/* 通用样式库 common.css */
+html {
+    height: 100%;
+    overflow-y: scroll;
+    font-size: 100%;
+    font-family: sans-serif;
+    background: #f5f5f5;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%
+}
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: normal;
+    font-family: "Hiragino Sans GB","Microsoft Yahei",SimSun,Arial,"Helvetica Neue",Helvetica;
+    word-wrap: break-word;
+    color: #686868;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+ul,
+ol,
+li {
+    margin: 0;
+    padding: 0;
+    list-style: none
+}
+a,
+a:focus {
+    outline: none
+}
+a:link,
+a:visited,
+a:hover,
+a:active {
+    text-decoration: none
+}
+img {
+    display: inline-block;
+    border: 0;
+    vertical-align: top;
+    -ms-interpolation-mode: bicubic
+}
+img,
+object,
+embed {
+    max-width: 100%
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: inherit
+}
+th {
+    font-weight: 700;
+    vertical-align: bottom
+}
+td,
+th {
+  padding: 0
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-family: inherit;
+    font-weight: 700;
+    line-height: 20px;
+    text-rendering: optimizelegibility;
+    color: inherit
+}
+small {
+    font-size: 85%
+}
+h1 small,
+h2 small,
+h3 small,
+h4 small,
+h5 small,
+h6 small {
+    font-weight: 400;
+    line-height: 1;
+    color: #999
+}
+p,
+form {
+    margin: 0
+}
+
+fieldset {
+  margin: 0 2px;
+  padding: .35em .625em .75em;
+  border: 1px solid #c0c0c0
+}
+legend {
+  padding: 0;
+  border: 0
+}
+label {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    vertical-align: middle;
+    font-weight: 400;
+    line-height: 20px
+}
+input::-ms-clear {
+    display: none;
+}
+input[type="number"] {
+   -moz-appearance: textfield;
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+    margin: 0;
+    padding: 0;
+    border: 1px solid #e0e0e0;
+    vertical-align: middle;
+    font-family: "Hiragino Sans GB","Microsoft Yahei",SimSun,Arial,"Helvetica Neue",Helvetica
+}
+input,
+select,
+textarea,
+button {
+    margin: 0;
+    outline: none;
+    -webkit-font-smoothing: antialiased
+}
+button,
+select {
+    text-transform: none
+}
+textarea {
+    overflow: auto;
+    height: auto;
+    resize: none
+}
+label,
+select,
+button,
+input[type=button],
+input[type=reset],
+input[type=submit],
+input[type=radio],
+input[type=checkbox],
+input[type=file] {
+    cursor: pointer
+}
+input[type=text],
+input[type=password],
+textarea {
+    font-family: "Microsoft Yahei",SimSun,Arial,"Helvetica Neue",Helvetica
+}
+button,
+input[type=button] {
+    overflow: visible;
+    width: auto
+}
+button,
+input {
+    overflow: visible;
+    line-height: normal
+}
+button,
+html input[type=button],
+input[type=reset],
+input[type=submit] {
+    -webkit-appearance: button;
+    cursor: pointer
+}
+button[disabled],
+html input[disabled] {
+    cursor: default
+}
+input[type=checkbox],
+input[type=radio] {
+    box-sizing: border-box;
+    padding: 0
+}
+input[type=radio] {
+    vertical-align: text-bottom
+}
+input[type=checkbox] {
+    vertical-align: bottom;
+    *vertical-align: baseline
+}
+hr {
+    display: block;
+    height: 0;
+    margin: 1em 0;
+    padding: 0;
+    border: 0;
+    border-top: 1px solid #ccc
+}
+b,
+strong {
+    font-weight: 700
+}
+em,i {
+    font-style: normal
+}
+dl,
+dt,
+dd {
+    margin: 0
+}
+progress {
+    display: inline-block;
+    vertical-align: baseline
+}
+code,
+pre {
+    display: block;
+    padding: 0 3px 2px;
+    border-radius: 3px;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: pre;
+    white-space: pre-wrap;
+    font-family: Monaco,Menlo,Consolas,"Courier New",monospace;
+    font-size: 12px;
+    color: #333
+}
+pre {
+    white-space: pre;
+    white-space: pre-wrap;
+    white-space: pre-line;
+    word-wrap: break-word
+}
+code {
+    padding: 2px 4px;
+    border: 1px solid #e1e1e8;
+    white-space: nowrap;
+    color: #d14;
+    background-color: #f7f7f9
+}
+pre code {
+    padding: 0;
+    border: 0;
+    white-space: pre;
+    white-space: pre-wrap;
+    color: inherit;
+    background-color: transparent
+}
+pre,
+code,
+kbd,
+samp {
+    font-family: monospace,sans-serif
+}
+del {
+    text-decoration: line-through
+}
+abbr[title],
+dfn[title] {
+    border-bottom: 1px dotted #000;
+    cursor: help
+}
+sub,
+sup {
+    position: relative;
+    font-size: 75%;
+    line-height: 0
+}
+sup {
+    top: -.5em
+}
+sub {
+    bottom: -.25em
+}
+blockquote,q {
+    quotes: none
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: '';
+    content: none
+}
+::selection {
+    color: #fff;
+    text-shadow: none;
+    background-color: #00b38a
+}
+::-moz-selection {
+    text-shadow: none;
+    color: #fff;
+    background-color: #00b38a
+}
+input:-moz-placeholder,
+textarea:-moz-placeholder {
+    color: #cfcfcf
+}
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+    color: #cfcfcf
+}
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    color: #cfcfcf
+}
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+    border: 0;
+    padding: 0
+}
+button:-moz-focusring,
+[type=button]:-moz-focusring,
+[type=reset]:-moz-focusring,
+[type=submit]:-moz-focusring {
+  outline: 1px dotted ButtonText
+}
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  font: inherit
+}
+svg:not(:root) {
+    overflow:hidden
+}
+template {
+    display: none
+}
+mark {
+  color: #000;
+  background: #ff0
+}
+[hide] {
+    display: none
+}
+[hidden] {
+  visibility: hidden
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+    display: block
+}
+audio,
+canvas,
+progress,
+video {
+  display: inline-block;
+  vertical-align: baseline
+}
+audio:not([controls]) {
+  display: none;
+  height: 0
+}
+

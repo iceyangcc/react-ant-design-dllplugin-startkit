@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/mock
+/mock/node_modules
 
 # testing
 /coverage
@@ -9,10 +11,12 @@
 # production
 /build
 /dist
+/release
 
 # misc
 /.idea
 .idea
+/.vscode/
 .DS_Store
 .env.local
 .env.development.local

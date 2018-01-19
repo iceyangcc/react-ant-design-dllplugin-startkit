@@ -14,6 +14,7 @@ const paths = require('./paths');
 const getClientEnvironment = require('./env');
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const HappyPack = require('happypack');
+const BASE_URL = require('../src/services/api/base').prefix
 
 // Webpack uses `publicPath` to determine where the app is being served from.
 // It requires a trailing slash, or the file assets will get an incorrect path.
@@ -58,7 +59,7 @@ module.exports = {
   // vendor: ["react", "react-dom"],
   // We generate sourcemaps in production. This is slow but gives good results.
   // You can exclude the *.map files from the build during deployment.
-  devtool: shouldUseSourceMap ? 'source-map' : false,
+  // devtool: shouldUseSourceMap ? 'source-map' : false,
   // In production, we only want to load the polyfills and the app code.
   entry: [require.resolve('./polyfills'), paths.appIndexJs],
   output: {
@@ -142,7 +143,7 @@ module.exports = {
             loader: require.resolve('url-loader'),
             options: {
               limit: 10000,
-              name: 'static/media/[name].[hash:8].[ext]',
+              name: 'static/images/[name].[hash:8].[ext]',
             },
           },
           // Process JS with Babel.
@@ -195,7 +196,8 @@ module.exports = {
                               '>1%',
                               'last 4 versions',
                               'Firefox ESR',
-                              'not ie < 9', // React doesn't support IE8 anyway
+                              'ie >= 8',
+                              // 'not ie < 9', // React doesn't support IE8 anyway
                             ],
                             flexbox: 'no-2009',
                           }),
@@ -345,7 +347,8 @@ module.exports = {
               {
                 "libraryName": "antd"
               }
-            ]
+            ],
+            "transform-decorators-legacy"
           ]
         },
       } ]
@@ -362,7 +365,7 @@ module.exports = {
       template: paths.appHtml,
       minify: {
         removeComments: true,
-        collapseWhitespace: true,
+        // collapseWhitespace: true,
         removeRedundantAttributes: true,
         useShortDoctype: true,
         removeEmptyAttributes: true,
@@ -407,7 +410,7 @@ module.exports = {
     // to their corresponding output file so that tools can pick it up without
     // having to parse `index.html`.
     new ManifestPlugin({
-      fileName: 'asset-manifest.json',
+      fileName: 'static/js/asset-manifest.json',
     }),
     // Generate a service worker script that will precache, and keep up to date,
     // the HTML & assets that are part of the Webpack build.
@@ -417,7 +420,7 @@ module.exports = {
       // If a URL is already hashed by Webpack, then there is no concern
       // about it being stale, and the cache-busting can be skipped.
       dontCacheBustUrlsMatching: /\.\w{8}\./,
-      filename: 'service-worker.js',
+      filename: 'static/js/service-worker.js',
       logger(message) {
         if (message.indexOf('Total precache size is') === 0) {
           // This message occurs for every build and is a bit too noisy.
@@ -455,7 +458,7 @@ module.exports = {
       filepath: path.resolve(__dirname,'dllbundle/vendor.dll.js'), // 同webpack.dll.conf.js output
       includeSourcemap: false,
       outputPath: '../build/static/js',
-      publicPath: '/static/js',
+      publicPath: `${BASE_URL}/static/js`,
       hash: true,
     }]),
     new webpack.optimize.CommonsChunkPlugin({

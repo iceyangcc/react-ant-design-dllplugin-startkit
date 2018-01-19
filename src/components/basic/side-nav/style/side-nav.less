@@ -1,0 +1,29 @@
+@import '../../../../assets/styles/less/helpers/_variables.less';
+@sideNavBorder: 2px solid #e8e9ea;
+@sideNavBorderColor: #e8e9ea;
+@itemHeight: 46px;
+@itemWidth: 200px;
+@innerTextHeight: 40px;
+@itemRadius: 2px;
+@itemColor: #a6a6a6;
+@activeBgColor: #4db3ff;
+@itemPaddingLeft: 55px;
+@subItemActiveColor: #4db3ff;
+.ums-comp-sidenav {
+  position: fixed;
+  z-index: 1;
+  margin-top: 60px;
+  padding-top: 230px;
+  width: @itemWidth;
+  height: 100%;
+  border-right: @sideNavBorder;
+  font-size: @font14;
+  text-align: left;
+  color: @itemColor;
+  background: #fff;
+  .item {
+    width: 100%;
+    padding-left: 30%;
+    margin-bottom: 2em;
+  }
+}

@@ -140,18 +140,25 @@ module.exports = {
             },
           },
           // Process JS with Babel.
+          // 历史配置
+          // {
+          //   test: /\.(js|jsx|mjs)$/,
+          //   include: paths.appSrc,
+          //   loader: require.resolve('babel-loader'),
+          //   options: {
+              
+          //     // This is a feature of `babel-loader` for webpack (not Babel itself).
+          //     // It enables caching results in ./node_modules/.cache/babel-loader/
+          //     // directory for faster rebuilds.
+          //     cacheDirectory: true,
+          //   },
+          // },
           {
             test: /\.(js|jsx|mjs)$/,
             include: paths.appSrc,
-            loader: require.resolve('babel-loader'),
-            options: {
-              
-              // This is a feature of `babel-loader` for webpack (not Babel itself).
-              // It enables caching results in ./node_modules/.cache/babel-loader/
-              // directory for faster rebuilds.
-              cacheDirectory: true,
-            },
+            loader: 'happypack/loader?id=jsx'
           },
+
           // "postcss" loader applies autoprefixer to our CSS.
           // "css" loader resolves paths in CSS and adds assets as dependencies.
           // "style" loader turns CSS into JS modules that inject <style> tags.
@@ -167,7 +174,6 @@ module.exports = {
                   importLoaders: 1,
                 },
               },
-              
               {
                 loader: require.resolve('postcss-loader'),
                 options: {
@@ -194,79 +200,46 @@ module.exports = {
               }
             ],
           },
-          {
-            test: /\.(scss|sass)$/,
-            use: [
-              require.resolve('style-loader'),
-              {
-                loader: require.resolve('css-loader'),
-                options: {
-                  importLoaders: 1,
-                },
-              },
+          // {
+          //   test: /\.(scss|sass)$/,
+          //   use: [
+          //     require.resolve('style-loader'),
+          //     {
+          //       loader: require.resolve('css-loader'),
+          //       options: {
+          //         importLoaders: 1,
+          //       },
+          //     },
               
-              {
-                loader: require.resolve('postcss-loader'),
-                options: {
-                  // Necessary for external CSS imports to work
-                  // https://github.com/facebookincubator/create-react-app/issues/2677
-                  ident: 'postcss',
-                  sourceMap : true,
-                  plugins: () => [
-                    require('postcss-flexbugs-fixes'),
-                    autoprefixer({
-                      browsers: [
-                        '>1%',
-                        'last 4 versions',
-                        'Firefox ESR',
-                        'not ie < 9', // React doesn't support IE8 anyway
-                      ],
-                      flexbox: 'no-2009',
-                    }),
-                  ],
-                },
-              },
-              {
-                loader: require.resolve('sass-loader')
-              }
-            ],
-          },
+          //     {
+          //       loader: require.resolve('postcss-loader'),
+          //       options: {
+          //         // Necessary for external CSS imports to work
+          //         // https://github.com/facebookincubator/create-react-app/issues/2677
+          //         ident: 'postcss',
+          //         sourceMap : true,
+          //         plugins: () => [
+          //           require('postcss-flexbugs-fixes'),
+          //           autoprefixer({
+          //             browsers: [
+          //               '>1%',
+          //               'last 4 versions',
+          //               'Firefox ESR',
+          //               'not ie < 9', // React doesn't support IE8 anyway
+          //             ],
+          //             flexbox: 'no-2009',
+          //           }),
+          //         ],
+          //       },
+          //     },
+          //     {
+          //       loader: require.resolve('sass-loader')
+          //     }
+          //   ],
+          // },
           {
             test: /\.less$/,
-            use: [
-              require.resolve('style-loader'),
-              {
-                loader: require.resolve('css-loader'),
-                options: {
-                  importLoaders: 1,
-                },
-              },
-              
-              {
-                loader: require.resolve('postcss-loader'),
-                options: {
-                  // Necessary for external CSS imports to work
-                  // https://github.com/facebookincubator/create-react-app/issues/2677
-                  ident: 'postcss',
-                  sourceMap : true,
-                  plugins: () => [
-                    require('postcss-flexbugs-fixes'),
-                    autoprefixer({
-                      browsers: [
-                        '>1%',
-                        'last 4 versions',
-                        'Firefox ESR',
-                        'not ie < 9', // React doesn't support IE8 anyway
-                      ],
-                      flexbox: 'no-2009',
-                    }),
-                  ],
-                },
-              },
-              {
-                loader: require.resolve('less-loader')
-              }
-            ],
+            use: "happypack/loader?id=less",
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.
           // When you `import` an asset, you get its (virtual) filename.
@@ -291,6 +264,64 @@ module.exports = {
     ],
   },
   plugins: [
+    new HappyPack({
+      id: 'jsx',
+      threads: 4,
+      loaders: [ {
+        loader: require.resolve('babel-loader'),
+        options: {
+          cacheDirectory: true,
+          compact: true,
+          plugins: [
+            [
+              "import",
+              {
+                "libraryName": "antd"
+              }
+            ],
+            "transform-decorators-legacy"
+          ]
+        },
+      } ]
+    }),
+    new HappyPack({
+      id: 'less',
+      threads: 4,
+      loaders: [
+        require.resolve('style-loader'),
+        {
+          loader: require.resolve('css-loader'),
+          options: {
+            importLoaders: 1,
+          },
+        },
+        {
+          loader: require.resolve('postcss-loader'),
+          options: {
+            // Necessary for external CSS imports to work
+            // https://github.com/facebookincubator/create-react-app/issues/2677
+            ident: 'postcss',
+            sourceMap : true,
+            plugins: () => [
+              require('postcss-flexbugs-fixes'),
+              autoprefixer({
+                browsers: [
+                  '>1%',
+                  'last 4 versions',
+                  'Firefox ESR',
+                  'ie >= 7'
+                  // 'not ie < 9', // React doesn't support IE8 anyway
+                ],
+                flexbox: 'no-2009',
+              }),
+            ],
+          },
+        },
+        {
+          loader: require.resolve('less-loader')
+        }
+      ]
+    }),
     // Makes some environment variables available in index.html.
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">

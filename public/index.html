@@ -3,38 +3,30 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <!--
-      manifest.json provides metadata used when your web app is added to the
-      homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
-
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
+    <link rel="icon" href="%PUBLIC_URL%/static/images/favicon.ico">
+    <title> react + react-router + redux + antd + webpack demo</title>
+    <script>
+      /*
+       * ajax路径配置, 本地环境
+       */
+      ;~function() {
+        var __prefixLocal = '/unicornServer';
+        var __prefixOnline = '';
+        var __dev = '//localhost:3005/unicornServer';
+        var prefix = /^(https?:)?\/\/(127\.0\.0\.1|localhost):.*$/.test(window.location.href) ? __prefixLocal : __prefixOnline;
+        var group = /^(https?:)?\/\/(127\.0\.0\.1|localhost):(\d+).*$/.exec(window.location.href)
+        if (group && group[3] && ['3000', '3001', '3002'].indexOf(group[3]) > -1) {
+          window.__BASE_PATH = __dev;
+          return;
+        }
+        window.__BASE_PATH = prefix;
+      }();
+    </script>
   </head>
   <body>
     <noscript>
-      You need to enable JavaScript to run this app.
+      您的浏览器未允许 Javascript运行!
     </noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>

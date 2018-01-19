@@ -1,5 +1,6 @@
 'use strict';
 
+
 // Do this as the first thing so that any code reading it knows the right env.
 process.env.BABEL_ENV = 'production';
 process.env.NODE_ENV = 'production';
@@ -34,6 +35,8 @@ const useYarn = fs.existsSync(paths.yarnLockFile);
 // These sizes are pretty large. We'll warn for bundles exceeding them.
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
+
+const fileUtils = require('../file-utils')
 
 // Warn and crash if required files are missing
 if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
@@ -79,7 +82,7 @@ measureFileSizesBeforeBuild(paths.appBuild)
         WARN_AFTER_BUNDLE_GZIP_SIZE,
         WARN_AFTER_CHUNK_GZIP_SIZE
       );
-      console.log();
+      console.log('编译结束啦');
 
       const appPackage = require(paths.appPackageJson);
       const publicUrl = paths.publicUrl;
@@ -92,6 +95,37 @@ measureFileSizesBeforeBuild(paths.appBuild)
         buildFolder,
         useYarn
       );
+      console.log('环境变量是: ', process.argv)
+      if (process.argv.indexOf('prod') > -1) {
+            /*** 
+             * 编译结束后, 替换 css下的路径
+             * /static/images 替换为 ../images
+            */
+            console.log(path.resolve(__dirname, '../../build/static/'))
+            const cssBuildPath = path.resolve(__dirname, '../../build/static/css')
+            const regToBeReplaced = /\/static/g
+            const htmlBuildPath = path.resolve(__dirname, '../../build/index.html')
+            fileUtils.replaceStrInDir(cssBuildPath, regToBeReplaced, '..', function() {
+              console.log('替换css中的static路径完毕')
+            })
+            fileUtils.replaceStrInFile(htmlBuildPath, regToBeReplaced, '${ctx}/static', htmlBuildPath, function() {
+              console.log('替换index.html中的路径完成')
+            })
+      }
+      /*** 
+       * 编译结束后, 替换 css下的路径
+       * /static/images 替换为 ../images
+      */
+      // console.log(path.resolve(__dirname, '../../build/static/'))
+      // const cssBuildPath = path.resolve(__dirname, '../../build/static/css')
+      // const regToBeReplaced = /\/static/g
+      // const htmlBuildPath = path.resolve(__dirname, '../../build/index.html')
+      // fileUtils.replaceStrInDir(cssBuildPath, regToBeReplaced, '..', function() {
+      //   console.log('替换css中的static路径完毕')
+      // })
+      // fileUtils.replaceStrInFile(htmlBuildPath, regToBeReplaced, '${ctx}/static', htmlBuildPath, function() {
+      //   console.log('替换index.html中的路径完成')
+      // })
     },
     err => {
       console.log(chalk.red('Failed to compile.\n'));
@@ -143,7 +177,9 @@ function build(previousFileSizes) {
 }
 
 function copyPublicFolder() {
-  fs.copySync(paths.appPublic, paths.appBuild, {
+  // 把 Public下的文件拷贝到 static/images下
+  const publicToBuild = path.resolve(paths.appBuild, './static/images/')
+  fs.copySync(paths.appPublic, publicToBuild, {
     dereference: true,
     filter: file => file !== paths.appHtml,
   });

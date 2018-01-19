@@ -31,9 +31,11 @@
     "generators": true,
     "templateStrings": true,
     "superInFunctions": true,
-    "experimentalObjectRestSpread": true
+    "experimentalObjectRestSpread": true,
+    "experimentalDecorators": true
   },
   "rules": {
+    "experimentalDecorators": 0,
     "accessor-pairs": 2,
     "array-bracket-spacing": 0,
     "block-scoped-var": 0,
