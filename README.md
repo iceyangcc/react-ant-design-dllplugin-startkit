@@ -63,10 +63,6 @@ xxx.com/restapi/list,
 npm run prod 是针对上线代码的.
 
 
-### 我的新版博客
-博客地址迁移到github啦: 
-[blog.nodejs.tech](http://blog.nodejs.tech) 是一个记录 大前端、iOS、Python、读书笔记、工作笔记、的技术博客，我将持续维护，持续更新
-
 ### 联系方式
 如有任何疑问和建议, 请联系我   iceyangcc@163.com, 谢谢
  
